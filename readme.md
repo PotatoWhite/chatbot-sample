@@ -1,6 +1,4 @@
-물론입니다. 모든 코드 라인에 대해 아주 상세한 설명을 추가하고, 각 개념을 이해하기 쉽게 설명해 보겠습니다. 아래는 각 코드 라인에 대한 설명과 함께 중학생도 이해할 수 있도록 자세히 주석을 달아 작성한 교안입니다.
-
-## 건강 상담 챗봇 교안
+# 건강 상담 챗봇 교안
 
 ### 1. 프로젝트 설정
 
@@ -144,6 +142,17 @@ import org.apache.spark.ml.linalg.Vector
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
+/**
+ * 데이터프레임, 벡터, IDF
+ * 데이터프레임 (DataFrame): Spark의 구조화된 데이터 구조로, CSV 파일에서 읽어온 데이터를 저장-> 전처리하여 새로운 컬럼을 추가
+ *
+ * 벡터 (Vector): 텍스트 데이터를 숫자 형식으로 변환한 것으로, HashingTF와 같은 도구를 사용하여 텍스트를 숫자 벡터로 변환
+ *
+ * IDF (Inverse Document Frequency): 단어의 중요도를 계산하는 방법으로, 자주 등장하는 단어의 가중치를 낮춥니다.
+ * 예: IDF를 사용하여 단어 벡터를 변환하면, 자주 등장하는 단어보다 중요한 단어가 더 큰 가중치를 갖게 됩니다.
+ *
+ * VectorAssembler: 여러 벡터를 하나로 결합하는 도구  단어와 글자 벡터를 하나의 벡터 텍스트의 결합 -> 특징을 더 잘 파악
+ */
 object AdvancedChatbot {
 
   def main(args: Array[String]): Unit = {
@@ -163,7 +172,7 @@ object AdvancedChatbot {
 
   // 한국어 종결어미를 어간으로 변환하는 함수
   private def convertToEndingsToStems(text: String): String = {
-    val endings = Map("습니다" -> "다", "니다" -> "다", "어요" -> "다", "네요" -> "다", "예요" -> "다", "죠" -> "다", "요" -> "다", "네" -> "다", "죠" -> "다")
+    val endings = Map("습니다" -> "다", "니다" -> "다", "어요" -> "다", "네요" -> "다", "예요" -> "다", "죠" -> "다", "요" -> "다", "네" -> "다", "죠" -> "다", "와요" -> "오다", "워요" -> "우다", "해요" -> "하다", "해" -> "하다", "하자" -> "하다", "하세" -> "하다", "하오" -> "하다", "하니" -> "하다", "하랴" -> "하다", "하거라" -> "하다", "하였다" -> "하다", "하였어" -> "하다", "하였지" -> "하다", "하였으" -> "하다", "하였음" -> "하다", "하였습" -> "하다", "하였소" -> "하다", "하였네" -> "하다", "하였노" -> "하다", "하였다오" -> "하다", "하였다시" -> "하다", "하였다시오" -> "하다")
     text.split(" ").map(word => endings.foldLeft(word)((acc, ending) => acc.replaceAll(ending._1 + "$", ending._2))).mkString(" ")
   }
 
@@ -300,7 +309,6 @@ object AdvancedChatbot {
     }
   }
 }
-
 
 ```
 
